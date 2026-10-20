@@ -35,7 +35,8 @@ ROLL_DTE = 5  # trading days left at which a position is rolled
 IV_WINDOW = 60
 # Half the quoted bid/ask width as a fraction of the option's mid, per ticker
 # (ATM, ~45 DTE, 2026-10-07). OTM and short-dated contracts are usually wider.
-HALF_SPREAD = {"FCEL": 0.035, "HOOD": 0.01, "POET": 0.04, "SOFI": 0.015, "BULL": 0.03}
+HALF_SPREAD = {"FCEL": 0.035, "HOOD": 0.01, "POET": 0.04, "SOFI": 0.015, "BULL": 0.03,
+               "QQQ": 0.005, "SPY": 0.005, "XLK": 0.01, "SMH": 0.01}
 MIN_TICK = 0.01
 
 SIGNALS = [
