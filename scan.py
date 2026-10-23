@@ -27,7 +27,7 @@ EXCLUDE = {"VIX"}
 ETFS = {"QQQ", "XLK", "SMH", "SPY"}
 MIN_BACKTEST = 20  # % total return a strategy needs on that ticker to count as a real edge
 # Upcoming earnings (update by hand). Source: Robinhood earnings calendar, 2026-10-20.
-EARNINGS = {"SOFI": "2026-10-27", "HOOD": "2026-10-27"}
+EARNINGS = {"SOFI": "2026-10-27", "HOOD": "2026-10-27", "SMH": "2026-10-28", "XLK": "2026-10-28", "QQQ": "2026-10-28"}
 EARNINGS_WINDOW = 10  # trading days a swing trade is typically held
 
 
