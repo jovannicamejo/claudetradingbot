@@ -4,8 +4,15 @@ Each file holds the response of one get_equity_historicals call (interval=day). 
 interpolated are gap-fill and are dropped. An existing CSV is merged with the new bars, the
 new bars winning on any date both contain.
 
+With --hourly, the dumps hold interval=hour bars instead. Regular-session hours are rolled up
+into one bar per date, and only dates the CSV does not have yet are added. This fills in
+today's bar before Robinhood publishes the daily one; it starts at the first full hour, so its
+open, high, low and volume are approximate, but its close is exact. The next daily import
+replaces it.
+
 Usage:
     python rh_import.py dump1.json [dump2.json ...]
+    python rh_import.py --hourly dump1.json [...]
 """
 import json
 import os
@@ -23,17 +30,28 @@ def bars_to_frame(bars):
     return pd.DataFrame(rows).set_index("date")
 
 
-def main(paths):
+def hourly_to_daily(bars):
+    hours = bars_to_frame([b for b in bars if b.get("session", "reg") == "reg"])
+    hours.index = hours.index.str[:10]
+    return hours.groupby(level=0).agg({"open": "first", "high": "max", "low": "min", "close": "last",
+                                       "volume": "sum"})
+
+
+def main(paths, hourly=False):
     for path in paths:
         with open(path) as f:
             results = json.load(f)["data"]["results"]
         for r in results:
-            sym, new = r["symbol"], bars_to_frame(r["bars"])
+            sym = r["symbol"]
+            new = hourly_to_daily(r["bars"]) if hourly else bars_to_frame(r["bars"])
             if new.empty:
                 print(f"{sym}: no bars")
                 continue
             out = f"data/{sym}_daily.csv"
-            if os.path.exists(out):
+            if hourly:
+                old = pd.read_csv(out, index_col="date")
+                new = pd.concat([old, new[~new.index.isin(old.index)]]).sort_index()
+            elif os.path.exists(out):
                 old = pd.read_csv(out, index_col="date")
                 new = pd.concat([old[~old.index.isin(new.index)], new]).sort_index()
             new[COLS].to_csv(out)
@@ -41,4 +59,5 @@ def main(paths):
 
 
 if __name__ == "__main__":
-    main(sys.argv[1:])
+    args = sys.argv[1:]
+    main([a for a in args if a != "--hourly"], hourly="--hourly" in args)
