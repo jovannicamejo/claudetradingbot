@@ -7,24 +7,33 @@ Account rules (Strix 50K, https://strixoptionsfunding.com/rules, 2026-10-28):
     stock price to check this.
   * single-leg long calls/puts only, whitelisted tickers only
 
-Sizing: a trade risks RISK_PER_TRADE at its option stop (contracts = risk / (stop x premium)).
-If even one contract would risk more than MAX_RISK_ONE, the trade is skipped. New trades are
-only taken while the open risk of all positions stays at or below MAX_OPEN_RISK, and only one
-position per ticker.
+Sizing: RISK_PER_TRADE is a hard cap on a trade's PLANNED loss at its option stop (contracts =
+floor(RISK_PER_TRADE / (OPT_STOP x premium x 100)); a trade where even one contract exceeds it
+is skipped, so at a 50% stop the most a $250 trade can pay is $500). New trades are only taken
+while the planned loss of all open positions stays at or below MAX_OPEN_RISK, and only one
+position per ticker. Planned loss is not maximum loss: a stop can fill worse than its level
+(the simulation fills gaps at the open), and the full premium is what is actually exposed.
+Positions in the same sector are NOT limited, so correlated signals (e.g. several energy names)
+can all be taken; that is a known gap.
 
 An evaluation is started on the first trading day of every month and run until it passes,
 fails, or the data ends.
 
-Findings (58 monthly starts, Jan 2022 - Oct 2026, run 2026-10-28; starts overlap, so they
-are not independent samples):
-  * At $600 risk per trade / $1,500 open, only ~38% of evaluations pass and ~57% fail, most of
-    them starting in the 2022 bear market. The drawdown floor, not the edge, is the limit.
-  * $250 per trade / $750 open (the defaults) fails least: ~45% pass, ~10% fail, the rest still
-    running when the data ends; with options priced 25% richer and 3% half-spreads, 52% / 7%.
-    The median pass takes 300+ trading days.
-  * At a 50% option stop, $312 of risk buys at most a $625 contract, so only about a quarter of
-    signals (the cheaper underlyings) are tradable at this size.
+Findings (58 monthly starts, Jan 2022 - Oct 2026, re-run 2026-10-28 with the $250 hard cap;
+starts overlap, so they are not independent samples, and single runs are fragile - see
+strix_research.py):
+  * $250 hard cap / $750 open: 41-57% passed, 2-16% failed, the rest still running when the data
+    ends, across the four pricing scenarios. The median pass took ~300-380 trading days.
+  * The earlier $600 / $1,500 sizing failed ~57% of evaluations; the drawdown floor, not the
+    edge, is the limit.
   * Taking profit at +100% did not help consistently.
+
+What this backtest is and is not:
+  * Option prices are Black-Scholes on trailing realized vol, not historical option quotes.
+  * Signals were chosen in calls.py from ~480 signal/filter/stop combinations on pre-2025 trades,
+    with 2025+ held out; the sizing/expiry research in strix_research.py used the full period.
+  * Entries fill at the next open after the signal; entry_delay.py covers later entries.
+  * No sector limit, no earnings exits (no earnings history), no early-session data gaps.
 
 Usage:
     python strix_sim.py
@@ -39,7 +48,7 @@ from backtest import STRATEGIES
 from calls import DELTA, DTE, FILTERS, MAX_HOLD, load_universe
 
 START, TARGET, DRAWDOWN = 50_000, 56_000, 3_000
-RISK_PER_TRADE, MAX_RISK_ONE, MAX_OPEN_RISK = 250, 312, 750
+RISK_PER_TRADE, MAX_OPEN_RISK = 250, 750
 OPT_STOP = 0.50
 
 # (signal, filter), in priority order when several fire on the same day. Chosen on
@@ -84,9 +93,9 @@ def simulate(trades, days, start):
         open_ = still
         for _, t in by_day.get(d, pd.DataFrame()).iterrows():
             risk_one = OPT_STOP * t.premium * 100
-            if risk_one > MAX_RISK_ONE or any(p["ticker"] == t.ticker for p in open_):
+            if risk_one > RISK_PER_TRADE or any(p["ticker"] == t.ticker for p in open_):
                 continue
-            n = max(1, int(RISK_PER_TRADE // risk_one))
+            n = int(RISK_PER_TRADE // risk_one)
             if sum(p["risk"] for p in open_) + n * risk_one > MAX_OPEN_RISK:
                 continue
             cash -= n * 100 * t.premium

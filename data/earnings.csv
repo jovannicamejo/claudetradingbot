@@ -1,0 +1,7 @@
+ticker,date,timing,verified,source
+AAPL,2026-11-02,pm,true,Robinhood get_earnings_results 2026-10-28
+BAC,2027-01-15,am,true,Robinhood get_earnings_results 2026-10-28
+DIS,2026-11-17,am,true,Robinhood get_earnings_results 2026-10-28
+OXY,2026-11-09,pm,true,Robinhood get_earnings_results 2026-10-28
+RBLX,2026-10-29,pm,true,Robinhood get_earnings_results 2026-10-28
+XOM,2026-10-30,am,true,Robinhood get_earnings_results 2026-10-28

@@ -72,14 +72,14 @@ def trades_for(universe, days, pool, months, dlt, stop, iv=1.0, spread=0.015, ji
 
 def evaluate(trades, days, starts, risk, stop):
     strix_sim.OPT_STOP = stop
-    strix_sim.RISK_PER_TRADE, strix_sim.MAX_RISK_ONE, strix_sim.MAX_OPEN_RISK = risk, 1.25 * risk, 3 * risk
+    strix_sim.RISK_PER_TRADE, strix_sim.MAX_OPEN_RISK = risk, 3 * risk
     res = pd.DataFrame([strix_sim.simulate(trades, days, s) for s in starts], columns=["outcome", "days", "taken"])
     passed = res[res.outcome == "pass"]
     fast = (passed.days <= SIX_MONTHS).sum()
     early_fail = ((res.outcome == "fail") & (res.days <= SIX_MONTHS)).sum()
     return {"pass_6mo_%": 100 * fast / len(res), "fail_6mo_%": 100 * early_fail / len(res),
             "pass_ever_%": 100 * len(passed) / len(res), "fail_ever_%": 100 * (res.outcome == "fail").mean(),
-            "med_days_to_pass": passed.days.median(), "max_contract_$": 1.25 * risk / stop,
+            "med_days_to_pass": passed.days.median(), "max_contract_$": risk / stop,
             "trades_per_6mo": res.taken.mean() * SIX_MONTHS / max(res.days.mean(), 1)}
 
 
