@@ -7,7 +7,8 @@ with the same contract as strix_sim.py (DTE, DELTA, MAX_HOLD from calls.py, OPT_
 
 Findings (run 2026-10-28): every setup stays positive with entries up to 5 sessions late. The
 RSI14 dip-buy's 2025+ average falls from ~30% per call at 0-2 sessions to ~15% at 4-5; its
-pre-2025 average barely moves (16-21%). The SMA 20/50 cross and Turtle breakout change little.
+pre-2025 average barely moves (16-21%). The SMA 20/50 cross's 2025+ average also drops, from
+~23% at 0-1 sessions to 8-15% at 3-5; the Turtle breakout changes little in either period.
 
 Usage:
     python entry_delay.py
