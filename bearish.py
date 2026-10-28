@@ -23,12 +23,11 @@ Usage:
     python bearish.py            # every ticker in data/ that is on the Strix whitelist
 """
 import glob
-from math import erf, exp, log, sqrt
-
 import numpy as np
 import pandas as pd
 
-from backtest import COST, SPLIT_DATE, atr, ema, rsi, sma
+import optsim
+from backtest import SPLIT_DATE, ema, rsi, sma
 
 PUT_DTE = 90          # trading days to expiry at entry (~4 calendar months)
 MAX_HOLD = 50         # sell with ~40 trading days left, before time decay speeds up
@@ -36,7 +35,6 @@ TARGET_DELTA = -0.70
 IV_MULT = 1.10        # puts usually trade above realized vol (skew)
 HALF_SPREAD = 0.015   # per side, as a fraction of the option's mid
 STOP_ATR = 2.0
-RATE = 0.04
 MIN_TRADES = 40       # pooled trades a combination needs before it is ranked
 
 # --------------------------------------------------------------------------- #
@@ -170,83 +168,13 @@ FILTERS = {
 
 
 # --------------------------------------------------------------------------- #
-# Put pricing
-# --------------------------------------------------------------------------- #
-def _ncdf(x):
-    return 0.5 * (1 + erf(x / sqrt(2)))
-
-
-def put_price(s, k, t, vol):
-    if t <= 0:
-        return max(k - s, 0.0)
-    d1 = (log(s / k) + (RATE + vol * vol / 2) * t) / (vol * sqrt(t))
-    d2 = d1 - vol * sqrt(t)
-    return k * exp(-RATE * t) * _ncdf(-d2) - s * _ncdf(-d1)
-
-
-def put_delta(s, k, t, vol):
-    d1 = (log(s / k) + (RATE + vol * vol / 2) * t) / (vol * sqrt(t))
-    return _ncdf(d1) - 1
-
-
-def pick_strike(s, t, vol):
-    """Strike (as a listed-looking round number) whose put delta is closest to TARGET_DELTA."""
-    step = 0.5 if s < 25 else 1 if s < 100 else 5 if s < 500 else 10
-    best, best_err = s, 9
-    k = round(s / step) * step
-    while k <= 1.6 * s:
-        err = abs(put_delta(s, k, t, vol) - TARGET_DELTA)
-        if err < best_err:
-            best, best_err = k, err
-        k += step
-    return best
-
-
-# --------------------------------------------------------------------------- #
 # Engine
 # --------------------------------------------------------------------------- #
 def run_short(df, entry, exit_, ticker):
-    entry, exit_ = entry.fillna(False).values, exit_.fillna(False).values
-    o, h, c = df.open.values, df.high.values, df.close.values
-    a = atr(df).values
-    rv = (np.log(df.close).diff().rolling(60).std() * sqrt(252)).values
-    dates = df.index
-    trades = []
-    in_pos = pending_entry = pending_exit = False
-    for i in range(1, len(df)):
-        if pending_exit and in_pos:
-            trades.append(_close(pos, i, o[i], rv[i - 1], dates, ticker))
-            in_pos = False
-        elif pending_entry and not in_pos and not np.isnan(rv[i - 1]):
-            vol = max(rv[i - 1], 0.10) * IV_MULT
-            k = pick_strike(o[i], PUT_DTE / 252, vol)
-            mid = put_price(o[i], k, PUT_DTE / 252, vol)
-            pos = {"i": i, "px": o[i], "k": k, "cost": mid * (1 + HALF_SPREAD),
-                   "stop": o[i] + STOP_ATR * a[i - 1]}
-            in_pos = True
-        pending_entry = pending_exit = False
-
-        if in_pos and h[i] >= pos["stop"]:  # gap-up fills at the open
-            trades.append(_close(pos, i, max(o[i], pos["stop"]), rv[i - 1], dates, ticker, stopped=True))
-            in_pos = False
-            continue
-        if in_pos:
-            pos["stop"] = min(pos["stop"], c[i] + STOP_ATR * a[i])
-            if exit_[i] or i - pos["i"] + 1 >= MAX_HOLD:
-                pending_exit = True
-        elif entry[i]:
-            pending_entry = True
-    if in_pos:
-        trades.append(_close(pos, len(df) - 1, c[-1], rv[-1], dates, ticker))
-    return trades
-
-
-def _close(pos, i, px, vol, dates, ticker, stopped=False):
-    t_left = max(PUT_DTE - (i - pos["i"]), 0) / 252
-    mid = put_price(px, pos["k"], t_left, max(vol, 0.10) * IV_MULT)
-    return {"ticker": ticker, "entry": dates[pos["i"]], "exit": dates[i], "days": i - pos["i"],
-            "short_%": 100 * (pos["px"] * (1 - COST) / (px * (1 + COST)) - 1),
-            "put_%": 100 * (mid * (1 - HALF_SPREAD) / pos["cost"] - 1), "stopped": stopped}
+    trades = optsim.run(df, entry, exit_, kind="P", dte=PUT_DTE, max_hold=MAX_HOLD, target_delta=abs(TARGET_DELTA),
+                        iv_mult=IV_MULT, half_spread=HALF_SPREAD, stop_atr=STOP_ATR, ticker=ticker)
+    return [{**{k: v for k, v in t.items() if k not in ("path", "low_path")},
+             "short_%": t["stock_%"], "put_%": t["opt_%"], "stopped": t["reason"] == "stock stop"} for t in trades]
 
 
 def summarize(t):

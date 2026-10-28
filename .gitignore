@@ -1,3 +1,4 @@
 __pycache__/
 *.pyc
 bearish_trades.csv
+calls_trades.pkl
