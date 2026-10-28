@@ -15,7 +15,7 @@ Grade:
   A-  at least 3 past trades averaging > 0%, entry no more than 2.5 ATR above the 20-day SMA
   B   anything else (fewer trades, a losing record on this ticker, or a stretched entry)
 
-A row is only `actionable` when it grades A or A-, its latest bar is official (not provisional,
+A row is only `eligible` (a rule check, not evidence of profitability) when it grades A or A-, its latest bar is official (not provisional,
 see rh_import.py), and the earnings policy in strix_rules.py allows the entry. Every scan is
 saved to scans/; when a scan for the same date is re-run on official bars, the rows that changed
 are printed. The specific contract is checked with strix_ticket.py. Nothing here places orders.
@@ -31,7 +31,7 @@ import pandas as pd
 import optsim
 from backtest import STRATEGIES, atr, sma
 from calls import FILTERS, load_universe
-from strix_rules import DELTA, DTE, MAX_HOLD, OPT_STOP, SESSION, planned_exit, provisional_bars
+from strix_rules import DELTA, DTE, MAX_HOLD, OPT_STOP, RULES_VERSION, SESSION, planned_exit, provisional_bars
 from strix_sim import SETUPS
 
 RECENT_DAYS = 5
@@ -62,9 +62,9 @@ def scan_ticker(args):
         n, avg = len(past), (sum(past) / len(past) if past else float("nan"))
         grade = ("A" if n >= 3 and avg >= 15 and stretch <= 2 else
                  "A-" if n >= 3 and avg > 0 and stretch <= 2.5 else "B")
-        exit_day, _, blocked = planned_exit(ticker, df.index[-1] + SESSION)
+        exit_day, when, _, blocked = planned_exit(ticker, df.index[-1] + SESSION)
         rows.append({"grade": grade, "ticker": ticker, "setup": sname, "status": "new" if age == 0 else f"{age}d ago",
-                     "asof": str(df.index[-1].date()), "earnings_block": blocked or "", "exit_by": str(exit_day.date()),
+                     "asof": str(df.index[-1].date()), "earnings_block": blocked or "", "exit_by": f"{exit_day.date()} {when}",
                      "close": round(df.close.iloc[-1], 2), "signal_close": round(df.close.iloc[i], 2),
                      "atr": round(a.iloc[-1], 2), "above_sma20_atr": round(stretch, 1),
                      "past_trades": n, "past_avg_%": round(avg, 1),
@@ -81,7 +81,7 @@ def main():
     asof = str(spy.index[-1].date())
     prov = provisional_bars()
     market_prov = {t for t in ("SPY", "VIX") if (t, asof) in prov}
-    print(f"As of {asof} close | SPY {spy.iloc[-1]:.2f} ({'above' if spy.iloc[-1] > sma(spy, 200).iloc[-1] else 'BELOW'} "
+    print(f"Rules {RULES_VERSION} | as of {asof} close | SPY {spy.iloc[-1]:.2f} ({'above' if spy.iloc[-1] > sma(spy, 200).iloc[-1] else 'BELOW'} "
           f"its 200-day) | VIX {vix.iloc[-1]:.2f} ({'calm' if vix.iloc[-1] < 20 else 'elevated'})")
     n_prov = sum(1 for t in universe if (t, asof) in prov)
     if n_prov or market_prov:
@@ -93,11 +93,12 @@ def main():
         return
     out = pd.DataFrame(rows)
     out["provisional"] = [(t, d) in prov or bool(market_prov) for t, d in zip(out.ticker, out["asof"])]
-    out["actionable"] = out.grade.isin(["A", "A-"]) & ~out.provisional & (out.earnings_block == "")
+    out["eligible"] = out.grade.isin(["A", "A-"]) & ~out.provisional & (out.earnings_block == "")
+    out["rules"] = RULES_VERSION
     out["g"] = out.grade.map({"A": 0, "A-": 1, "B": 2})
     out = out.sort_values(["g", "past_avg_%"], ascending=[True, False]).drop(columns="g")
     pd.set_option("display.width", 260, "display.max_colwidth", 70)
-    print(out.drop(columns=["asof"]).to_string(index=False))
+    print(out.drop(columns=["asof", "rules"]).to_string(index=False))
 
     os.makedirs("scans", exist_ok=True)
     kind = "provisional" if out.provisional.any() else "official"

@@ -5,7 +5,11 @@ setups with the entry delayed by k sessions, taken only if the setup has not exi
 meantime and the close has not run more than 1 ATR past the signal close (the scan's rule),
 with the same contract as strix_sim.py (DTE, DELTA, MAX_HOLD from calls.py, OPT_STOP).
 
-Findings (run 2026-10-28): every setup stays positive with entries up to 5 sessions late. The
+These are modeled option returns (see strix_rules.py's pricing caveat) under the EARLIER rule
+set that holds through earnings; they do not include the strix-v1 earnings exits, so they do
+not validate the live rules, and a group average is not a forecast for any one trade.
+
+Findings (run 2026-10-28): in the modeled sample, every setup stays positive with entries up to 5 sessions late. The
 RSI14 dip-buy's 2025+ average falls from ~30% per call at 0-2 sessions to ~15% at 4-5; its
 pre-2025 average barely moves (16-21%). The SMA 20/50 cross's 2025+ average also drops, from
 ~23% at 0-1 sessions to 8-15% at 3-5; the Turtle breakout changes little in either period.

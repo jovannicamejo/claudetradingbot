@@ -1,27 +1,27 @@
-grade,ticker,setup,status,asof,earnings_block,exit_by,close,signal_close,atr,above_sma20_atr,past_trades,past_avg_%,past_win_%,provisional,actionable
-A,XLE,Turtle 55/20 breakout,3d ago,2026-10-28,,2027-01-11,68.45,69.33,1.39,1.4,6,55.3,50,True,False
-A,OXY,Turtle 55/20 breakout,3d ago,2026-10-28,earnings 2026-11-09 pm forces an exit after 8 sessions (< 15),2026-11-09,62.86,64.17,1.56,1.1,6,46.0,33,True,False
-A,BAC,RSI14 <30 -> >70,3d ago,2026-10-28,,2027-01-11,50.87,50.56,1.12,-1.2,12,39.6,50,True,False
-A,AAPL,Turtle 55/20 breakout,4d ago,2026-10-28,earnings 2026-11-02 pm forces an exit after 3 sessions (< 15),2026-11-02,343.86,348.22,6.16,0.5,10,30.7,50,True,False
-A,RBLX,Turtle 55/20 breakout,2d ago,2026-10-28,earnings 2026-10-29 pm forces an exit after 1 sessions (< 15),2026-10-29,53.28,54.37,2.36,1.6,9,22.9,33,True,False
-A,SOUN,RSI14 <30 -> >70,3d ago,2026-10-28,next earnings date unknown; add it to data/earnings.csv,2027-01-11,4.45,4.43,0.25,-2.2,7,18.1,29,True,False
-A,DIS,Turtle 55/20 breakout,4d ago,2026-10-28,earnings 2026-11-17 am forces an exit after 13 sessions (< 15),2026-11-16,109.07,113.13,1.94,0.4,7,16.3,29,True,False
-A-,USO,Turtle 55/20 breakout,3d ago,2026-10-28,,2027-01-11,166.6,169.53,5.04,2.2,7,59.8,29,True,False
-A-,XOM,Turtle 55/20 breakout,2d ago,2026-10-28,earnings 2026-10-30 am forces an exit after 1 sessions (< 15),2026-10-29,182.06,184.54,3.91,2.1,7,22.9,43,True,False
-A-,BABA,RSI14 <30 -> >70,3d ago,2026-10-28,next earnings date unknown; add it to data/earnings.csv,2027-01-11,100.98,99.64,2.78,-2.1,10,8.4,20,True,False
-A-,KO,Turtle 55/20 breakout,4d ago,2026-10-28,next earnings date unknown; add it to data/earnings.csv,2027-01-11,91.85,95.34,1.55,1.0,11,7.0,45,True,False
-A-,NOW,Turtle 55/20 breakout,3d ago,2026-10-28,next earnings date unknown; add it to data/earnings.csv,2027-01-11,149.89,158.96,5.99,0.8,10,4.0,50,True,False
-A-,EOSE,RSI14 <30 -> >70,3d ago,2026-10-28,next earnings date unknown; add it to data/earnings.csv,2027-01-11,1.96,1.73,0.23,-1.4,11,2.0,27,True,False
-A-,V,Turtle 55/20 breakout,4d ago,2026-10-28,next earnings date unknown; add it to data/earnings.csv,2027-01-11,401.02,414.34,6.43,1.6,11,1.7,45,True,False
-A-,COST,Turtle 55/20 breakout,4d ago,2026-10-28,next earnings date unknown; add it to data/earnings.csv,2027-01-11,982.29,1018.21,15.84,0.8,11,1.3,36,True,False
-B,IBM,SMA 20/50 cross,new,2026-10-28,next earnings date unknown; add it to data/earnings.csv,2027-01-11,253.31,253.31,6.94,2.6,6,24.0,33,True,False
-B,IBM,Turtle 55/20 breakout,4d ago,2026-10-28,next earnings date unknown; add it to data/earnings.csv,2027-01-11,253.31,252.11,6.94,2.6,12,-0.3,33,True,False
-B,TSLA,Turtle 55/20 breakout,1d ago,2026-10-28,next earnings date unknown; add it to data/earnings.csv,2027-01-11,404.46,407.46,13.46,2.1,8,-1.6,25,True,False
-B,MA,Turtle 55/20 breakout,4d ago,2026-10-28,next earnings date unknown; add it to data/earnings.csv,2027-01-11,611.09,633.21,9.85,1.4,11,-1.8,36,True,False
-B,TXN,Turtle 55/20 breakout,new,2026-10-28,next earnings date unknown; add it to data/earnings.csv,2027-01-11,309.81,309.81,9.35,2.4,10,-2.6,30,True,False
-B,ZS,Turtle 55/20 breakout,2d ago,2026-10-28,next earnings date unknown; add it to data/earnings.csv,2027-01-11,255.91,260.45,11.47,2.7,10,-14.6,30,True,False
-B,UNH,Turtle 55/20 breakout,4d ago,2026-10-28,next earnings date unknown; add it to data/earnings.csv,2027-01-11,407.25,424.98,10.96,1.2,8,-21.7,25,True,False
-B,PFE,Turtle 55/20 breakout,4d ago,2026-10-28,next earnings date unknown; add it to data/earnings.csv,2027-01-11,29.48,30.42,0.55,1.0,7,-24.0,14,True,False
-B,AMZN,SMA 20/50 cross,new,2026-10-28,next earnings date unknown; add it to data/earnings.csv,2027-01-11,254.65,254.65,6.18,-0.1,4,-29.2,25,True,False
-B,PG,Turtle 55/20 breakout,4d ago,2026-10-28,next earnings date unknown; add it to data/earnings.csv,2027-01-11,158.37,165.59,2.93,1.3,10,-41.9,0,True,False
-B,OXY,SMA 20/50 cross,3d ago,2026-10-28,earnings 2026-11-09 pm forces an exit after 8 sessions (< 15),2026-11-09,62.86,64.17,1.56,1.1,2,-50.0,0,True,False
+grade,ticker,setup,status,asof,earnings_block,exit_by,close,signal_close,atr,above_sma20_atr,past_trades,past_avg_%,past_win_%,provisional,eligible,rules
+A,XLE,Turtle 55/20 breakout,3d ago,2026-10-28,,2027-01-12 open,68.45,69.33,1.39,1.4,6,55.3,50,True,False,strix-v1 (frozen 2026-10-28)
+A,OXY,Turtle 55/20 breakout,3d ago,2026-10-28,earnings 2026-11-09 pm forces an exit after 8 sessions (< 15),2026-11-09 close,62.86,64.17,1.56,1.1,6,46.0,33,True,False,strix-v1 (frozen 2026-10-28)
+A,BAC,RSI14 <30 -> >70,3d ago,2026-10-28,,2027-01-12 open,50.87,50.56,1.12,-1.2,12,39.6,50,True,False,strix-v1 (frozen 2026-10-28)
+A,AAPL,Turtle 55/20 breakout,4d ago,2026-10-28,earnings 2026-11-02 pm forces an exit after 3 sessions (< 15),2026-11-02 close,343.86,348.22,6.16,0.5,10,30.7,50,True,False,strix-v1 (frozen 2026-10-28)
+A,RBLX,Turtle 55/20 breakout,2d ago,2026-10-28,earnings 2026-10-29 pm forces an exit after 1 sessions (< 15),2026-10-29 close,53.28,54.37,2.36,1.6,9,22.9,33,True,False,strix-v1 (frozen 2026-10-28)
+A,SOUN,RSI14 <30 -> >70,3d ago,2026-10-28,next earnings date unknown; add it to data/earnings.csv,2027-01-12 open,4.45,4.43,0.25,-2.2,7,18.1,29,True,False,strix-v1 (frozen 2026-10-28)
+A,DIS,Turtle 55/20 breakout,4d ago,2026-10-28,earnings 2026-11-17 am forces an exit after 13 sessions (< 15),2026-11-16 close,109.07,113.13,1.94,0.4,7,16.3,29,True,False,strix-v1 (frozen 2026-10-28)
+A-,USO,Turtle 55/20 breakout,3d ago,2026-10-28,,2027-01-12 open,166.6,169.53,5.04,2.2,7,59.8,29,True,False,strix-v1 (frozen 2026-10-28)
+A-,XOM,Turtle 55/20 breakout,2d ago,2026-10-28,earnings 2026-10-30 am forces an exit after 1 sessions (< 15),2026-10-29 close,182.06,184.54,3.91,2.1,7,22.9,43,True,False,strix-v1 (frozen 2026-10-28)
+A-,BABA,RSI14 <30 -> >70,3d ago,2026-10-28,next earnings date unknown; add it to data/earnings.csv,2027-01-12 open,100.98,99.64,2.78,-2.1,10,8.4,20,True,False,strix-v1 (frozen 2026-10-28)
+A-,KO,Turtle 55/20 breakout,4d ago,2026-10-28,next earnings date unknown; add it to data/earnings.csv,2027-01-12 open,91.85,95.34,1.55,1.0,11,7.0,45,True,False,strix-v1 (frozen 2026-10-28)
+A-,NOW,Turtle 55/20 breakout,3d ago,2026-10-28,next earnings date unknown; add it to data/earnings.csv,2027-01-12 open,149.89,158.96,5.99,0.8,10,4.0,50,True,False,strix-v1 (frozen 2026-10-28)
+A-,EOSE,RSI14 <30 -> >70,3d ago,2026-10-28,next earnings date unknown; add it to data/earnings.csv,2027-01-12 open,1.96,1.73,0.23,-1.4,11,2.0,27,True,False,strix-v1 (frozen 2026-10-28)
+A-,V,Turtle 55/20 breakout,4d ago,2026-10-28,next earnings date unknown; add it to data/earnings.csv,2027-01-12 open,401.02,414.34,6.43,1.6,11,1.7,45,True,False,strix-v1 (frozen 2026-10-28)
+A-,COST,Turtle 55/20 breakout,4d ago,2026-10-28,next earnings date unknown; add it to data/earnings.csv,2027-01-12 open,982.29,1018.21,15.84,0.8,11,1.3,36,True,False,strix-v1 (frozen 2026-10-28)
+B,IBM,SMA 20/50 cross,new,2026-10-28,next earnings date unknown; add it to data/earnings.csv,2027-01-12 open,253.31,253.31,6.94,2.6,6,24.0,33,True,False,strix-v1 (frozen 2026-10-28)
+B,IBM,Turtle 55/20 breakout,4d ago,2026-10-28,next earnings date unknown; add it to data/earnings.csv,2027-01-12 open,253.31,252.11,6.94,2.6,12,-0.3,33,True,False,strix-v1 (frozen 2026-10-28)
+B,TSLA,Turtle 55/20 breakout,1d ago,2026-10-28,next earnings date unknown; add it to data/earnings.csv,2027-01-12 open,404.46,407.46,13.46,2.1,8,-1.6,25,True,False,strix-v1 (frozen 2026-10-28)
+B,MA,Turtle 55/20 breakout,4d ago,2026-10-28,next earnings date unknown; add it to data/earnings.csv,2027-01-12 open,611.09,633.21,9.85,1.4,11,-1.8,36,True,False,strix-v1 (frozen 2026-10-28)
+B,TXN,Turtle 55/20 breakout,new,2026-10-28,next earnings date unknown; add it to data/earnings.csv,2027-01-12 open,309.81,309.81,9.35,2.4,10,-2.6,30,True,False,strix-v1 (frozen 2026-10-28)
+B,ZS,Turtle 55/20 breakout,2d ago,2026-10-28,next earnings date unknown; add it to data/earnings.csv,2027-01-12 open,255.91,260.45,11.47,2.7,10,-14.6,30,True,False,strix-v1 (frozen 2026-10-28)
+B,UNH,Turtle 55/20 breakout,4d ago,2026-10-28,next earnings date unknown; add it to data/earnings.csv,2027-01-12 open,407.25,424.98,10.96,1.2,8,-21.7,25,True,False,strix-v1 (frozen 2026-10-28)
+B,PFE,Turtle 55/20 breakout,4d ago,2026-10-28,next earnings date unknown; add it to data/earnings.csv,2027-01-12 open,29.48,30.42,0.55,1.0,7,-24.0,14,True,False,strix-v1 (frozen 2026-10-28)
+B,AMZN,SMA 20/50 cross,new,2026-10-28,next earnings date unknown; add it to data/earnings.csv,2027-01-12 open,254.65,254.65,6.18,-0.1,4,-29.2,25,True,False,strix-v1 (frozen 2026-10-28)
+B,PG,Turtle 55/20 breakout,4d ago,2026-10-28,next earnings date unknown; add it to data/earnings.csv,2027-01-12 open,158.37,165.59,2.93,1.3,10,-41.9,0,True,False,strix-v1 (frozen 2026-10-28)
+B,OXY,SMA 20/50 cross,3d ago,2026-10-28,earnings 2026-11-09 pm forces an exit after 8 sessions (< 15),2026-11-09 close,62.86,64.17,1.56,1.1,2,-50.0,0,True,False,strix-v1 (frozen 2026-10-28)
