@@ -16,6 +16,16 @@ fail rate of one configuration from 5% to 53%, because a $3,000 floor turns on w
 trades happen to fit. So every configuration in Part 2 is the average of 9 nearby variants
 (expiry -3/0/+3 trading days x max hold 55/60/65% of the contract's life).
 
+Findings (run 2026-10-28, 58 monthly starts Jan 2022 - Oct 2026):
+  * Per trade, 3-6 month contracts beat 1-2 month ones, and contracts under $1,500 beat pricier
+    ones by a wide margin (e.g. 4 months, 0.70 delta: +22-27% vs +9-18% per trade).
+  * No configuration passed within 6 months more than ~29% of the time, and every one that got
+    near that failed 57-73% of evaluations. Faster passing always came with more failures.
+  * The lowest-failure setting (6 months, 0.50 delta, -50% option stop, $250 risk) failed ~21%
+    and passed ~56% eventually, with a median of ~350 trading days.
+  * Bigger risk per trade and a tighter -35% stop both raise the 6-month pass rate a little and
+    the failure rate a lot.
+
 Usage:
     python strix_research.py
 """
