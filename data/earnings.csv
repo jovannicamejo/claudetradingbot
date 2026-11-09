@@ -5,3 +5,21 @@ DIS,2026-11-17,am,true,Robinhood get_earnings_results 2026-10-28
 OXY,2026-11-09,pm,true,Robinhood get_earnings_results 2026-10-28
 RBLX,2026-10-29,pm,true,Robinhood get_earnings_results 2026-10-28
 XOM,2026-10-30,am,true,Robinhood get_earnings_results 2026-10-28
+NVDA,2026-11-17,pm,true,Robinhood get_earnings_results 2026-11-09
+ARM,2027-02-03,pm,true,Robinhood get_earnings_results 2026-11-09
+GOOGL,2027-02-03,pm,false,Robinhood get_earnings_results 2026-11-09
+COIN,2027-02-11,pm,false,Robinhood get_earnings_results 2026-11-09
+DELL,2026-11-24,pm,true,Robinhood get_earnings_results 2026-11-09
+MU,2026-12-16,pm,false,Robinhood get_earnings_results 2026-11-09
+CAT,2027-02-02,am,true,Robinhood get_earnings_results 2026-11-09
+RDDT,2027-02-04,pm,false,Robinhood get_earnings_results 2026-11-09
+INTC,2027-01-21,pm,false,Robinhood get_earnings_results 2026-11-09
+MRVL,2026-12-01,pm,true,Robinhood get_earnings_results 2026-11-09
+HOOD,2027-02-09,pm,false,Robinhood get_earnings_results 2026-11-09
+FCEL,2026-12-17,am,false,Robinhood get_earnings_results 2026-11-09
+BULL,2026-11-19,pm,true,Robinhood get_earnings_results 2026-11-09
+DAL,2027-01-12,am,false,Robinhood get_earnings_results 2026-11-09
+CSCO,2026-11-12,pm,true,Robinhood get_earnings_results 2026-11-09
+ASML,2027-01-27,am,true,Robinhood get_earnings_results 2026-11-09 (timing not given; treated as am)
+SOUN,2027-02-25,pm,false,Robinhood get_earnings_results 2026-11-09
+NOW,2027-01-27,pm,false,Robinhood get_earnings_results 2026-11-09
